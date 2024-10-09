@@ -1,0 +1,1 @@
+This folder consists of topics around classification such as handling Naive Bayes Classifier and handling imbalanced datasets but also introducing ensemble methods such as Boosting, Bagging, XGBoost and LightGBM.
