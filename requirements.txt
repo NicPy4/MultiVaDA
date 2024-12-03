@@ -1,0 +1,15 @@
+numpy==1.26.4
+scipy
+matplotlib
+scikit-learn
+pandas
+polars
+polars-xdt
+pyarrow
+xarray
+xarray-datatree
+seaborn
+umap-learn
+numba
+PyWavelets
+Pillow
