@@ -5,7 +5,7 @@ This includes all the presentations & code examples on different kind of topics 
 
 This repository is focused on understanding and get a first overview over different techniques that are more or less relevant for Data Analysis.
 
-**How to upload new stuff:**
+**How to upload new stuff (if there is no existing folder for your topic, otherwise just jump to step 7):**
 
 1. select the folder that is relevant to your topic
 2. click on "create a new file" in the folder
