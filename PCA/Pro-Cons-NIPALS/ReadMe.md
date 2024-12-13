@@ -1,0 +1,1 @@
+Pro and Cons of NIPALS algorithm
