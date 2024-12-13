@@ -1,0 +1,110 @@
+---
+title: "TK8117_Week11_Group4: GLOBAL SENSITIVITY ANALYSIS"
+author: "N.Quattrini"
+date: "2024-11-05"
+output: pdf_document
+---
+
+SOBOL'S GLOBAL SENSITIVITY ANALYSIS using airquality dataset
+- contains daily air quality measurements in New York from May to Semptember 1973
+- Q: how do different factors affect the Ozone concentration? 
+
+# PACKAGES
+```{r calling packages}
+library(sensitivity)
+library(boot)
+library(ggplot2)
+```
+
+# STEP 1: LOADING & PREPARING DATA
+  - importing dataset: 153 rows, 6 cols
+  - removing rows containing NAs (42) --> 111 rows, 6 cols remain
+```{r}
+data(airquality)
+airquality <- na.omit(airquality) 
+```
+
+# STEP 2 DEFINE THE MODEL
+Creating simple linear model to predict Ozone concentration based on Solar.R, 
+  Wind, and Temp
+```{r model}
+model <- function(X){
+  fit <- lm(Ozone ~ Solar.R + Wind + Temp, data = airquality)
+  predict(fit, newdata = data.frame(Solar.R = X[,1], Wind = X[,2], 
+                                    Temp = X[,3]))
+}
+```
+
+# STEP 3: GENERATE SAMPLES
+```{r}
+n <- 1000
+X1 <- data.frame(matrix(runif(3 * n, 
+                              min = apply(airquality[, c("Solar.R", 
+                                                         "Wind", 
+                                                         "Temp")], 2, min), 
+                              max = apply(airquality[, c("Solar.R", 
+                                                         "Wind", 
+                                                         "Temp")], 2, max)), 
+                        nrow = n))
+X2 <- data.frame(matrix(runif(3 * n, 
+                              min = apply(airquality[, c("Solar.R", 
+                                                         "Wind", 
+                                                         "Temp")], 2, min), 
+                              max = apply(airquality[, c("Solar.R", 
+                                                         "Wind", 
+                                                         "Temp")], 2, max)), 
+                        nrow = n))
+```
+
+# STEP 4: PERFORMING SENSITIVITY ANALYSIS
+```{r sobol_result}
+sobol_res <- sobol(model = model, X1 = X1, X2 = X2, order = 1, nboot = 100)
+print(sobol_res)
+
+# Example data from Sobol analysis
+sobol_result <- list(S1 = c(0.3, 0.4, 0.2), ST = c(0.5, 0.6, 0.3), 
+                     parameters = c("Solar.R", "Wind", "Temp"))
+print(sobol_result)
+```
+
+# STEP 5: VISUALISING RESULTS
+```{r plot}
+# Convert the results to a data frame
+df <- data.frame(
+  Parameter = rep(sobol_result$parameters, 2),
+  Sensitivity = c(sobol_result$S1, sobol_result$ST),
+  Type = rep(c("First-order", "Total effect"), 
+             each = length(sobol_result$parameters))
+)
+
+# Create the plot
+g <- ggplot(df, aes(x = Parameter, y = Sensitivity, fill = Type)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Sobol Sensitivity Analysis", 
+       x = "Parameters", y = "Sensitivity Index") +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set1")
+
+ggsave("/Users/nicoleq/Library/CloudStorage/OneDrive-NTNU/LUX_NQJ/Courses/TK8117/sobol.jpg", plot = g, width = 6, height = 4, dpi = 300)
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
