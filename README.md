@@ -1,5 +1,5 @@
 # MultiVaDA
-This a collection of presentations &amp; code examples from the course Advanced Multivariate Data Analysis @ NTNU.
+This a collection of presentations &amp; code examples from the course Advanced Multivariate Data Analysis (https://www.ntnu.edu/studies/courses/TK8117#tab=omEmnet) @ NTNU.
 
 This includes all the presentations & code examples on different kind of topics regarding Data Analysis. All content was created by participants of the course (PhDs from different fields).
 
